@@ -1,0 +1,10 @@
+version: '1'
+services:
+    mongo:
+        image: mongo
+        ports:
+            - '27017' : '27017'
+    node:
+        build:
+            dockerfile: Dockerfile
+        depands_on: mongo

@@ -71,3 +71,6 @@ Fork this repo and send us a pull request when you think it's ready for review. 
 > What if I have a question?
 
 Create a new issue in the repo and we will get back to you shortly.
+
+## Documentation
+Make sure you have Docker installed

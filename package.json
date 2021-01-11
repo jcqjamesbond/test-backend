@@ -1,0 +1,20 @@
+{
+  "name": "test-backend",
+  "version": "1.0.0",
+  "description": "Make sure you read the whole document carefully and follow the guidelines in it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcqjamesbond/test-backend.git"
+  },
+  "keywords": [],
+  "author": "Chengqing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jcqjamesbond/test-backend/issues"
+  },
+  "homepage": "https://github.com/jcqjamesbond/test-backend#readme"
+}

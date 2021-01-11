@@ -43,7 +43,7 @@ export default {
 
         try {
             let userRes = await User.findById(_id);
-            return res.json({msg: '', data: {user: userRes}}).status(200);
+            return res.json({msg: 'get user successfully.', data: {user: userRes}}).status(200);
         } catch (e) {
             return res.json({msg: 'cannot find user by _id', data: {_id: _id}});
         }
@@ -60,8 +60,8 @@ export default {
         let dob = data.dob;
         let description = data.description;
         let addressName = data.addressName;
-        let latitude = -72;
-        let longitude = 21;
+        let latitude = data.latitude;
+        let longitude = data.longitude;
 
         try {
             let updateRes = await User.findByIdAndUpdate({_id: _id}, {
@@ -84,9 +84,14 @@ export default {
      * delete user
      */
     delete: async (req: Request, res: Response) => {
-        let ans = await User.findByIdAndDelete({_id: req.params.id});
+        let _id = req.params._id;
 
-        res.json(ans);
+        try {
+            let deleteRes = await User.findByIdAndDelete({_id: req.params.id});
+            return res.json({msg: 'delete the user successfully.', data: {}});
+        } catch (e) {
+            res.json({msg: 'deleting user error.', data: {}});
+        }
     },
 
     /**

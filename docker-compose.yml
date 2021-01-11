@@ -1,10 +1,15 @@
-version: '1'
+version: '3'
 services:
-    mongo:
-        image: mongo
-        ports:
-            - '27017' : '27017'
-    node:
-        build:
-            dockerfile: Dockerfile
-        depands_on: mongo
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+  node:
+    # build:
+    #   context: ./
+    #   dockerfile: Dockerfile
+    image: node-test
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo

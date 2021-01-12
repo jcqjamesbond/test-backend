@@ -12,7 +12,6 @@ export default {
      * @apiParam {String} name
      * @apiParam {String} dob
      * @apiParam {String} description
-     * @apiParam {String} addressName
      * @apiParam {Number} latitude
      * @apiParam {Number} longitude
      * 
@@ -121,7 +120,6 @@ export default {
      * @apiParam {String} name
      * @apiParam {String} dob
      * @apiParam {String} description
-     * @apiParam {String} addressName
      * @apiParam {Number} latitude
      * @apiParam {Number} longitude
      * 
@@ -217,7 +215,7 @@ export default {
      * @apiErrorExample Error-Response:
      *   HTTP/1.1 500 Internal Server Error
      *   {
-     *     "msg": "CREATE_FAILURE",
+     *     "msg": "GET_NEARBY_USER_FAILURE",
      *     "data": {
      *       "e": ""
      *     }

@@ -190,7 +190,7 @@ export default {
 
     /**
      * get nearby users
-     * @api POST /api/nearby-users/1
+     * @api POST /api/user/nearby/1
      * @apiName GetNearbyUsers
      * 
      * @apiParam {Object} data
@@ -199,9 +199,18 @@ export default {
      * @apiSuccessExample Success-Response
      *   HTTP/1.1 200 OK
      *   {
-     *     "msg": "created user successfully.",
+     *     "msg": "get nearby users",
      *     "data": {
-     *       "_id": "uiocweryf92eh8ou"
+     *       "nearby_users": [
+     *          { 
+     *             _id: "",
+     *             name: ""
+     *          },
+     *          {
+     *             _id: "",
+     *             name: ""
+     *          }
+     *       ]
      *     }
      *   }
      * 
@@ -217,26 +226,29 @@ export default {
     getNearbyUsers: async (req: Request, res: Response) => {
         // get current user's geolocation
         let _id = req.params.id;
+        let maxDistance = req.body.data.maxDistance;
 
-        let userRes = User.findById(_id);
+        try {
+            let userRes = await User.findById(_id);
 
-        let longitude = userRes.address.coordinates[0];
+            if (userRes !== null) {
 
-        let latitude = userRes.address.coordinates[1];
-
-        let nearbyUserRes = await User.find({
-            address: {
-                $near: {
-                    $maxDistance: 1000,
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [longitude, latitude]
+                let nearbyUserRes = await User.find({
+                    address: {
+                        $near: {
+                            $maxDistance: maxDistance,
+                            $geometry: {
+                                type: "Point",
+                                coordinates: userRes.address.coordinates
+                            }
+                        }
                     }
-                }
+                });
+
+                return res.json({msg: 'get nearby users', data: {nearby_users: nearbyUserRes}}).status(200);
             }
-        });
-
-        return res.json({msg: 'get nearby users', data: {nearby_users: nearbyUserRes}}).status(200);
-
+        } catch (e) {
+            return res.json({msg: 'GET_NEARBY_USER_FAILURE', data: {e: e}}).status(500);
+        }
     }
 }

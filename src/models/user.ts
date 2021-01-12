@@ -22,7 +22,9 @@ const UserSchema: Schema = new Schema({
         type: {type: String},
         coordinates: { type: [Number] }
     }
-});
+})
+
+UserSchema.index({address: '2dsphere'});
 
 // Export the model and return IUser interface
 export default mongoose.model<IUser>('User', UserSchema);

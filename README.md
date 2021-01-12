@@ -10,6 +10,8 @@ I was tring to define the docker build argument in docker-compose.yml, however, 
 enter http://localhost:3000 in the web browser to test the server.
 
 ## API
+
+1. get user
 GET /api/user/{id}
 get the user information according to the user's _id
 
@@ -20,6 +22,7 @@ json
   data: Object
 }
 
+2. create new user
 POST /api/user/
 create new user
 
@@ -28,7 +31,6 @@ create new user
     name string
     dob string
     description string
-    address string
     longitude number
     latitude number
   }
@@ -41,6 +43,7 @@ json
   data: Object
 }
 
+3. update user
 POST /api/user/{id}
 update user according to user's _id
 
@@ -51,6 +54,7 @@ json
   data: Object
 }
 
+4. delete user
 DELETE /api/user/{id}
 delete user according to id
 #Response

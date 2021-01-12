@@ -15,4 +15,7 @@ router.post('/:id', userController.update);
 // delete user by _id
 router.delete('/:id', userController.delete);
 
+
+router.post('/nearby/:id', userController.getNearbyUsers);
+
 export = router;

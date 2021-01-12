@@ -6,10 +6,11 @@ import userController from '../controllers/userController';
 // add new user
 router.post('/', userController.add);
 
-// router.post('/:id', user);
-
 // get user by _id
 router.get('/:id', userController.get);
+
+// update user by _id
+router.post('/:id', userController.update);
 
 // delete user by _id
 router.delete('/:id', userController.delete);

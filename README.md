@@ -11,7 +11,7 @@ enter http://localhost:3000 in the web browser to test the server.
 
 ## API
 GET /api/user/{id}
-get the user information according to the user _id
+get the user information according to the user's _id
 
 #Response
 json
@@ -27,7 +27,10 @@ create new user
   data: {
     name string
     dob string
-
+    description string
+    address string
+    longitude number
+    latitude number
   }
 }
 
@@ -39,7 +42,7 @@ json
 }
 
 POST /api/user/{id}
-update user according to id
+update user according to user's _id
 
 #Response
 json
@@ -58,4 +61,6 @@ json
 }
 
 
-
+## TEST
+After starting the express server, run the following command to perform the test
+1. npm test

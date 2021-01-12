@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface Address extends Document {
-    name: string;
+    type: string;
     coordinates: [number]
 }
 
@@ -19,7 +19,7 @@ const UserSchema: Schema = new Schema({
     description: { type: String, required: false },
     createdAt: { type: Date, default: Date.now },
     address: {
-        name: { type: String },
+        type: {type: String},
         coordinates: { type: [Number] }
     }
 });

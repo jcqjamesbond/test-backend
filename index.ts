@@ -8,6 +8,8 @@ const app = express();
 
 const PORT = 3000;
 
+const db = 'mongodb://mongo:27017/test';
+
 app.get('/', (req, res) => res.send('Hello world.'));
 
 app.use(express.json());
@@ -19,5 +21,10 @@ app.listen(PORT, () => {
 });
 
 // connect to mongo
-mongoose.connect('mongodb://mongo:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+    console.info(`Successfully connected to ${db}`);
+}).catch((error) => {
+    console.error('Error connecting to database: ', error);
+    return process.exit(1);
+});
 

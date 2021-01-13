@@ -24,6 +24,7 @@ const UserSchema: Schema = new Schema({
     }
 })
 
+// create index address with type as 2dsphere for geo nearby
 UserSchema.index({address: '2dsphere'});
 
 // Export the model and return IUser interface

@@ -18,7 +18,7 @@ export default {
      * @apiSuccessExample Success-Response
      *   HTTP/1.1 200 OK
      *   {
-     *     "msg": "created user successfully.",
+     *     "msg": "CREATE_USER_SUCCESS",
      *     "data": {
      *       "_id": "uiocweryf92eh8ou"
      *     }
@@ -27,26 +27,24 @@ export default {
      * @apiErrorExample Error-Response:
      *   HTTP/1.1 500 Internal Server Error
      *   {
-     *     "msg": "CREATE_FAILURE",
+     *     "msg": "CREATE_USER_FAILURE",
      *     "data": {
      *       "e": ""
      *     }
      *   }
-     * 
      */
     add: async (req: Request, res: Response) => {
         let data = req.body.data;
         let name = data.name;
         let dob = data.dob;
         let description = data.description;
-        let addressName = data.addressName;
         let latitude = data.latitude;
         let longitude = data.longitude;
 
-        // var regEx = /^\d{4}-\d{2}-\d{2}$/;
-        // if (!dob.match(regEx)) {
-        //     return res.json({msg: 'INVALID_DATE_OF_BIRTH', data: {}}).status(200);
-        // }
+        var regEx = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dob.match(regEx)) {
+            return res.json({msg: 'INVALID_DATE_OF_BIRTH', data: {}}).status(200);
+        }
 
         try {
             let addRes = await User.create({
@@ -59,10 +57,10 @@ export default {
                 }
             });
     
-            return res.json({msg: 'created user successfully.', data: {_id: addRes._id}}).status(200);
+            return res.status(200).json({msg: 'CREATE_USER_SUCCESS', data: {_id: addRes._id}});
             
         } catch (e) {
-            return res.json({msg: 'CREATE_FAILURE', data: {err: e}}).status(500);
+            return res.status(500).json({msg: 'CREATE_USER_FAILURE', data: {err: e}});
         }
     },
 
@@ -74,7 +72,7 @@ export default {
      * @apiSuccessExample Success-Response
      *   HTTP/1.1 200 OK
      *   {
-     *     "msg": "get user successfully.",
+     *     "msg": "GET_USER_SUCCESS",
      *     "data": {
      *       "user": {
      *          "name": "",
@@ -82,9 +80,8 @@ export default {
      *          "dob": "1990-01-01",
      *          "createdAt": "",
      *          "address": {
-     *              "name": "Huashan Rd",
-     *              "latitude": "",
-     *              "longitude": ""
+     *              "type": "Point",
+     *              "coordinates": []
      *          }
      *        }
      *     }
@@ -93,7 +90,7 @@ export default {
      * @apiErrorExample Error-Response:
      *   HTTP/1.1 500 Internal Server Error
      *   {
-     *     "msg": "GET_FAILURE",
+     *     "msg": "GET_USER_FAILURE",
      *     "data": {
      *       "_id": ""
      *     }
@@ -104,9 +101,15 @@ export default {
 
         try {
             let userRes = await User.findById(_id);
-            return res.json({msg: 'get user successfully.', data: {user: userRes}}).status(200);
+
+            if (userRes === null) {
+                return res.status(200).json({msg: 'INVALID_ID', data: {}});
+            } else {
+                return res.status(200).json({msg: 'GET_USER_SUCCESS', data: {user: userRes}});
+            }
+            
         } catch (e) {
-            return res.json({msg: 'GET_FAILURE', data: {_id: _id, e: e}}).status(500);
+            return res.status(500).json({msg: 'GET_USER_FAILURE', data: {e: e}});
         }
     },
 
@@ -163,9 +166,9 @@ export default {
                 }
             });
     
-            res.json({msg: 'updated user successfully.', data: {}}).status(200);
+            res.status(200).json({msg: 'updated user successfully.', data: {}});
         } catch (e) {
-            res.json({msg: 'UPDATE_FAILURE', data: {}}).status(500);
+            res.status(500).json({msg: 'UPDATE_FAILURE', data: {}});
         }
     },
 
@@ -179,9 +182,9 @@ export default {
 
         try {
             let deleteRes = await User.findByIdAndDelete({_id: req.params.id});
-            res.json({msg: 'delete the user successfully.', data: {}}).status(200);
+            res.status(200).json({msg: 'delete the user successfully.', data: {}});
         } catch (e) {
-            res.json({msg: 'DELETE_FAILURE', data: {}}).status(500);
+            res.status(500).json({msg: 'DELETE_FAILURE', data: {}});
         }
 
     },
@@ -243,10 +246,10 @@ export default {
                     }
                 });
 
-                return res.json({msg: 'get nearby users', data: {nearby_users: nearbyUserRes}}).status(200);
+                return res.status(200).json({msg: 'get nearby users', data: {nearby_users: nearbyUserRes}});
             }
         } catch (e) {
-            return res.json({msg: 'GET_NEARBY_USER_FAILURE', data: {e: e}}).status(500);
+            return res.status(500).json({msg: 'GET_NEARBY_USER_FAILURE', data: {e: e}});
         }
     }
 }

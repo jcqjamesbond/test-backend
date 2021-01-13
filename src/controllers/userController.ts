@@ -129,7 +129,7 @@ export default {
      * @apiSuccessExample Success-Response
      *   HTTP/1.1 200 OK
      *   {
-     *     "msg": "updated user successfully.",
+     *     "msg": "UPDATE_USER_SUCCESS",
      *     "data": {
      *       "_id": ""
      *     }
@@ -138,7 +138,7 @@ export default {
      * @apiErrorExample Error-Response:
      *   HTTP/1.1 500 Internal Server Error
      *   {
-     *     "msg": "UPDATE_FAILURE",
+     *     "msg": "UPDATE_USER_FAILURE",
      *     "data": {
      *       "e": ""
      *     }
@@ -151,7 +151,6 @@ export default {
         let name = data.name;
         let dob = data.dob;
         let description = data.description;
-        let addressName = data.addressName;
         let latitude = data.latitude;
         let longitude = data.longitude;
 
@@ -164,11 +163,11 @@ export default {
                     type: "Point",
                     coordinates: [longitude, latitude]
                 }
-            });
+            }, {new: true});
     
-            res.status(200).json({msg: 'updated user successfully.', data: {}});
+            res.status(200).json({msg: 'UPDATE_USER_SUCCESS', data: {user: updateRes}});
         } catch (e) {
-            res.status(500).json({msg: 'UPDATE_FAILURE', data: {}});
+            res.status(500).json({msg: 'UPDATE_USER_FAILURE', data: {e: e}});
         }
     },
 
@@ -182,9 +181,9 @@ export default {
 
         try {
             let deleteRes = await User.findByIdAndDelete({_id: req.params.id});
-            res.status(200).json({msg: 'delete the user successfully.', data: {}});
+            res.status(200).json({msg: 'DELETE_USER_SUCCESS', data: {}});
         } catch (e) {
-            res.status(500).json({msg: 'DELETE_FAILURE', data: {}});
+            res.status(500).json({msg: 'DELETE_USER_FAILURE', data: {e: e}});
         }
 
     },
@@ -200,7 +199,7 @@ export default {
      * @apiSuccessExample Success-Response
      *   HTTP/1.1 200 OK
      *   {
-     *     "msg": "get nearby users",
+     *     "msg": "GET_NEARBY_USER_SUCCESS",
      *     "data": {
      *       "nearby_users": [
      *          { 
@@ -227,7 +226,7 @@ export default {
     getNearbyUsers: async (req: Request, res: Response) => {
         // get current user's geolocation
         let _id = req.params.id;
-        let maxDistance = req.body.data.maxDistance;
+        let maxDistance = req.body.data.maxDistance ? req.body.data.maxDistance : 1000;
 
         try {
             let userRes = await User.findById(_id);
@@ -246,7 +245,7 @@ export default {
                     }
                 });
 
-                return res.status(200).json({msg: 'get nearby users', data: {nearby_users: nearbyUserRes}});
+                return res.status(200).json({msg: 'GET_NEARBY_USER_SUCCESS', data: {nearby_users: nearbyUserRes}});
             }
         } catch (e) {
             return res.status(500).json({msg: 'GET_NEARBY_USER_FAILURE', data: {e: e}});
